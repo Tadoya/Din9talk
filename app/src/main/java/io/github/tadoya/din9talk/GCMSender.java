@@ -16,9 +16,7 @@ import java.io.IOException;
  */
 public class GCMSender {
 
-    //protected LoggingService.Logger mLogger;
-
-    String downstream_api_key = "AIzaSyDqVHqov_qZmbH7KIxbVpVu4oOxseDL4T0";
+    String downstream_api_key = "AIzaSyCeCWPxwyBHijXu6WmzJUBKBttRaHADAxU";//"AIzaSyDqVHqov_qZmbH7KIxbVpVu4oOxseDL4T0";
     String downstream_token = StartActivity.Token;
     String downstream_collapse_key = "";
     String downstream_restricted_package_name = "io.github.tadoya.din9talk";
@@ -30,7 +28,6 @@ public class GCMSender {
         doGcmSend();
     }
     protected void doGcmSend() {
-        //final Activity activity = this.getActivity();
         final Message.Builder messageBuilder = new Message.Builder();
 
         String collapseKey = downstream_collapse_key;
@@ -71,6 +68,7 @@ public class GCMSender {
                     if (json) {
                         sender.sendHttpJsonDownstreamMessage(registrationId,
                                 messageBuilder.build());
+                        Log.d("GcmDEMO","success");
                     } else {
                         sender.sendHttpPlaintextDownstreamMessage(registrationId, messageBuilder.build());
                     }

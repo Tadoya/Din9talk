@@ -1,6 +1,7 @@
 package io.github.tadoya.din9talk;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,27 +9,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.common.SignInButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.quickstart.auth.ChooserActivity;
+
 
 
 public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "StartActivity";
-    public static String Token="";
-    private boolean isToken=false;
-    Button getTokenButton;
-    Button signInButton;
-    Button signOutButton;
+    static String Token="";
+    static boolean isToken=false;
+    static Button getTokenButton;
+    static Button signInButton;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Users");
+    static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    static DatabaseReference myRef = database.getReference("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,31 +37,23 @@ public class StartActivity extends AppCompatActivity {
 
         getTokenButton = (Button) findViewById(R.id.getTokenButton);
         signInButton = (Button) findViewById(R.id.sign_in_button);
-        signOutButton = (Button) findViewById(R.id.sign_out_button);
 
-        // Read a message from the database(Once)
-        myRef.child("tadoya").child("token").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String tadoyaToken = (String) dataSnapshot.getValue();
-                Log.d(TAG,tadoyaToken);
-                Token = tadoyaToken;
-                isToken = true;
-                getTokenButton.setText("START");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG,"token reading error");
-                isToken = false;
-            }
-        });
+        if(signInButton.getText().equals("Sign Out")){
+            getTokenatStart();
+        }
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signIntent = new Intent(getApplicationContext(), ChooserActivity.class);
-                startActivity(signIntent);
+                if(signInButton.getText().equals("Sign In")) {
+                    Intent signIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(signIntent);
+                }
+                else{
+                    signInButton.setText("Sign In");
+                    signInButton.setBackgroundColor(Color.parseColor("#80cbc4"));
+                    FirebaseAuth.getInstance().signOut();
+                }
             }
         });
 
@@ -97,5 +89,24 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public static void getTokenatStart(){
+        // Read a message from the database(Once)
+        myRef.child("tadoya").child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String tadoyaToken = (String) dataSnapshot.getValue();
+                Log.d(TAG,tadoyaToken);
+                Token = tadoyaToken;
+                isToken = true;
+                getTokenButton.setText("START");
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG,"token reading error");
+                isToken = false;
+            }
+        });
     }
 }

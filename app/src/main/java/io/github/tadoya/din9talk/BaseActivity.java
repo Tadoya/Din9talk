@@ -1,9 +1,10 @@
-package com.google.firebase.quickstart.auth;
+package io.github.tadoya.din9talk;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import io.github.tadoya.din9talk.R;
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -12,8 +13,8 @@ public class BaseActivity extends AppCompatActivity {
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage("Loading...");
         }
 
         mProgressDialog.show();
@@ -21,14 +22,13 @@ public class BaseActivity extends AppCompatActivity {
 
     public void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        hideProgressDialog();
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
 
 }

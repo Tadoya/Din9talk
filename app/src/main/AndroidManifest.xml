@@ -25,40 +25,10 @@
             android:name=".ChattingActivity"
             android:label="@string/label_chatting"/>
 
-        <activity
-            android:name="com.google.firebase.quickstart.auth.CustomAuthActivity"
-            android:label="@string/label_custom_auth" />
+        <activity android:name=".SignInActivity"
+            android:label="@string/action_sign_in"/>
 
-        <activity
-            android:name="com.google.firebase.quickstart.auth.GoogleSignInActivity"
-            android:label="@string/label_google_sign_in" />
 
-        <activity
-            android:name="com.google.firebase.quickstart.auth.FacebookLoginActivity"
-            android:label="@string/label_facebook_login" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <activity
-            android:name="com.google.firebase.quickstart.auth.EmailPasswordActivity"
-            android:label="@string/label_emailpassword"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity
-            android:name="com.google.firebase.quickstart.auth.AnonymousAuthActivity"
-            android:label="@string/label_anonymous_auth"/>
-
-        <activity
-            android:name="com.google.firebase.quickstart.auth.ChooserActivity"
-            android:label="@string/Chooser"/>
 
         <!-- [START firebase_service] -->
         <service android:name="com.google.firebase.quickstart.fcm.MyFirebaseMessagingService" >

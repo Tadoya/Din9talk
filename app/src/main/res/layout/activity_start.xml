@@ -34,19 +34,11 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal|center"
                 android:text="Sign In"
-                android:textAllCaps="false"
-                android:background="@color/accent_material_dark" />
+                android:background="@color/accent_material_dark"
+                android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/sign_out_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Sign Out"
-                android:textAllCaps="false"
-                android:gravity="center_vertical|center_horizontal|center"
-                android:background="@color/accent_material_light" />
         </LinearLayout>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"

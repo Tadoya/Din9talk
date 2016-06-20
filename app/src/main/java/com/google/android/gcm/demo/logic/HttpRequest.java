@@ -16,7 +16,6 @@ limitations under the License.
 package com.google.android.gcm.demo.logic;
 
 import android.support.v4.util.SimpleArrayMap;
-import android.util.Log;
 
 
 import java.io.BufferedReader;

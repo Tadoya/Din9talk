@@ -64,6 +64,7 @@
     <string name="email_fmt">Email: %s</string>
     <string name="label_chatting">chatting</string>
     <string name="Chooser">Chooser</string>
+    <string name="sign_up">Sign Up</string>
 
 
 </resources>

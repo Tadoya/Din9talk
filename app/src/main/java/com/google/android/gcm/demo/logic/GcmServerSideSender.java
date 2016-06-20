@@ -15,6 +15,8 @@ limitations under the License.
  */
 package com.google.android.gcm.demo.logic;
 
+import android.util.Log;
+
 import static com.google.android.gcm.demo.logic.HttpRequest.CONTENT_TYPE_FORM_ENCODED;
 import static com.google.android.gcm.demo.logic.HttpRequest.CONTENT_TYPE_JSON;
 import static com.google.android.gcm.demo.logic.HttpRequest.HEADER_CONTENT_TYPE;
@@ -50,21 +52,16 @@ public class GcmServerSideSender {
     private static final String PARAM_JSON_PAYLOAD = "data";
     private static final String PARAM_JSON_NOTIFICATION_PARAMS = "notification";
 
-    public static final String RESPONSE_PLAINTEXT_MESSAGE_ID = "id";
-    public static final String RESPONSE_PLAINTEXT_CANONICAL_REG_ID = "registration_id";
-    public static final String RESPONSE_PLAINTEXT_ERROR = "Error";
 
     private final String key;
-    //private final LoggingService.Logger logger;
 
 
     /**
      * @param key    The API key used to authorize calls to Google
      * /@param logger the GCM Demo logger
      */
-    public GcmServerSideSender(String key){//, LoggingService.Logger logger) {
+    public GcmServerSideSender(String key){
         this.key = key;
-        //this.logger = logger;
     }
 
     /**
@@ -151,6 +148,8 @@ public class GcmServerSideSender {
     public String sendHttpJsonDownstreamMessage(String destination,
                                               Message message) throws IOException {
 
+        Log.d("JSON","destination:"+ destination);
+        Log.d("JSON","message:"+ message.toString());
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put(PARAM_TO, destination);
@@ -182,16 +181,16 @@ public class GcmServerSideSender {
                     + " status: " + httpRequest.getResponseCode()
                     + " response: " + httpRequest.getResponseBody());
         }
-        /*
+
         JSONObject jsonResponse;
 
         try {
             jsonResponse = new JSONObject(httpRequest.getResponseBody());
-            logger.log(Log.INFO, "Send message:\n" + jsonResponse.toString(2));
+            Log.d("GCMSide", ""+jsonResponse.toString(2));
         } catch (JSONException e) {
-            logger.log(Log.ERROR, "Failed to parse server response:\n"
+            Log.d("GCMSide" ,"Failed to parse server response:\n"
                     + httpRequest.getResponseBody());
-        }*/
+        }
         return httpRequest.getResponseBody();
     }
 
