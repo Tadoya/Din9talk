@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class GCMSender {
 
-    String downstream_api_key = "AIzaSyCeCWPxwyBHijXu6WmzJUBKBttRaHADAxU";//"AIzaSyDqVHqov_qZmbH7KIxbVpVu4oOxseDL4T0";
+    String downstream_api_key = "AIzaSyBnW1s3KB5fW1xQpsiOMmaO0wDVVJgeziw";
     String downstream_token = StartActivity.Token;
     String downstream_collapse_key = "";
     String downstream_restricted_package_name = "io.github.tadoya.din9talk";

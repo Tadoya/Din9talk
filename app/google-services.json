@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "426135695067",
+    "firebase_url": "https://din9talk.firebaseio.com",
+    "project_id": "din9talk",
+    "storage_bucket": "din9talk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426135695067:android:7f461d43d022d882",
+        "android_client_info": {
+          "package_name": "io.github.tadoya.din9talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426135695067-t69pmhejab36b7a67k9iiscke2idlt41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.tadoya.din9talk",
+            "certificate_hash": "A50631AEB9F9EDF406D141BD17ED81A7C8F81B6E"
+          }
+        },
+        {
+          "client_id": "426135695067-318i3tdfuvk7rfdvgpe6jndlmsu6bs0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqVHqov_qZmbH7KIxbVpVu4oOxseDL4T0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
