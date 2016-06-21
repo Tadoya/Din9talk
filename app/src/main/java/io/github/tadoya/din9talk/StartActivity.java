@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+
 
 
 public class StartActivity extends AppCompatActivity {
@@ -24,32 +24,37 @@ public class StartActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     static String Token="";
-    static boolean isToken=false;
-    static boolean isStaySignIn;
-    static Button getTokenButton;
+    String userUid;
+    static boolean isStaySignIn=true;
+    static Button startButton;
     static Button signInButton;
 
     static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    static DatabaseReference myRef = database.getReference("Users");
+    static DatabaseReference myRef = database.getReference("users");
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        getTokenButton = (Button) findViewById(R.id.getTokenButton);
+        startButton = (Button) findViewById(R.id.startButton);
         signInButton = (Button) findViewById(R.id.sign_in_button);
 
         mAuth = FirebaseAuth.getInstance();
         mAuth.getCurrentUser();
-        Log.d("stay","Start_currentuser:" + mAuth.getCurrentUser().getEmail());
 
         if (mAuth.getCurrentUser() != null) {
             signInButton.setText("Sign Out");
+            userUid = mAuth.getCurrentUser().getUid();
+            userEmail = mAuth.getCurrentUser().getEmail();
+
+            Log.d("signCycle","Start_currentuser's email:" + userEmail);
+            Log.d("signCycle","Start_currentuser:"+ userUid);
         }
 
         if(signInButton.getText().equals("Sign Out")){
-            getTokenatStart();
+            getTokenatStart(userUid, userEmail);
         }
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,33 +64,19 @@ public class StartActivity extends AppCompatActivity {
                     startActivity(signIntent);
                 }
                 else{
-                    signInButton.setText("Sign In");
-                    signInButton.setBackgroundColor(Color.parseColor("#80cbc4"));
-                    FirebaseAuth.getInstance().signOut();
+                    reSign();
                 }
             }
         });
 
 
-        getTokenButton.setOnClickListener(new View.OnClickListener() {
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Token.isEmpty() && !isToken)  {
-                    Token = FirebaseInstanceId.getInstance().getToken();
-                    Log.d(TAG, "InstanceID token: " + Token);
-                    Toast.makeText(StartActivity.this, "Token = " +Token, Toast.LENGTH_SHORT).show();
-                    getTokenButton.setText("START");
-                    isToken = true;
-
-                    // Write a message to the database
-                    myRef.child("tadoya").child("token").setValue(Token);
-                }
-                else {
-                    Intent chattingIntent = new Intent(getApplicationContext(), ChattingActivity.class);
-                    chattingIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(chattingIntent);
-                    finish();
-                }
+                Intent chattingIntent = new Intent(getApplicationContext(), ChattingActivity.class);
+                chattingIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(chattingIntent);
+                finish();
             }
         });
     }
@@ -99,27 +90,38 @@ public class StartActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if(!isStaySignIn){
-            Log.d("stay","destroy:"+isStaySignIn);
+            Log.d("signCycle","destroy:"+isStaySignIn);
             FirebaseAuth.getInstance().signOut();
         }
     }
 
-    public static void getTokenatStart(){
+
+    public void getTokenatStart(String userUid, final String userEmail){
         // Read a message from the database(Once)
-        myRef.child("tadoya").child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child(userUid).child("Token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String tadoyaToken = (String) dataSnapshot.getValue();
-                Log.d(TAG,tadoyaToken);
-                Token = tadoyaToken;
-                isToken = true;
-                getTokenButton.setText("START");
+                String DBToken = (String) dataSnapshot.getValue();
+                Log.d("signCycle","get from database token:"+DBToken);
+                if(Token.equals(DBToken)) {
+                    startButton.setEnabled(true);
+                    Toast.makeText(StartActivity.this, "Hello!"+'\n'+userEmail, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(StartActivity.this, "Already, signing in..\n Please resign in!", Toast.LENGTH_LONG).show();
+                    reSign();
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG,"token reading error");
-                isToken = false;
             }
         });
+    }
+    public void reSign(){
+        startButton.setEnabled(false);
+        signInButton.setText("Sign In");
+        signInButton.setBackgroundColor(Color.parseColor("#80cbc4"));
+        FirebaseAuth.getInstance().signOut();
     }
 }

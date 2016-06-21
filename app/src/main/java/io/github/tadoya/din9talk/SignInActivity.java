@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.quickstart.fcm.MyFirebaseMessagingService;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import io.github.tadoya.din9talk.models.User;
 
@@ -35,7 +35,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private EditText mPasswordField;
     private Button mSignInButton;
     private Button mSignUpButton;
-    private CheckBox mSigninCheckBox;
+    private CheckBox mSignInCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         mSignUpButton.setOnClickListener(this);
 
         // CheckBox
-        mSigninCheckBox = (CheckBox)findViewById(R.id.sign_in_checkBox);
+        mSignInCheckBox = (CheckBox)findViewById(R.id.sign_in_checkBox);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void signIn() {
-        Log.d(TAG, "signIn");
+        Log.d("signCycle", "signIn");
         if (!validateForm()) {
             return;
         }
@@ -83,7 +83,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+                        Log.d("signCycle", "signIn:onComplete:" + task.isSuccessful());
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
@@ -126,13 +126,13 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
 
-        // Write new user
+        // Write new user & getToken
         writeNewUser(user.getUid(), username);
 
         // Stay signed in
-        Log.d("stay","SigninActivity checkBox:" + mSigninCheckBox.isChecked());
-        Log.d("stay","Sign_currentuser:" + mAuth.getCurrentUser().getEmail());
-        if(mSigninCheckBox.isChecked()){
+        Log.d("signCycle","SigninActivity checkBox:" + mSignInCheckBox.isChecked());
+        Log.d("signCycle","Sign_currentuser's email:" + mAuth.getCurrentUser().getEmail());
+        if(mSignInCheckBox.isChecked()){
             StartActivity.isStaySignIn = true;
         }
         else{
@@ -142,11 +142,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Go to MainActivity
         StartActivity.signInButton.setText("Sign Out");
         StartActivity.signInButton.setBackgroundColor(Color.parseColor("#009688"));
-        StartActivity.getTokenatStart();
-        /*
-        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);*/
         finish();
     }
 
@@ -181,7 +176,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private void writeNewUser(String userId, String name) {
         User user = new User(name);
 
+        StartActivity.Token = FirebaseInstanceId.getInstance().getToken();
+
         mDatabase.child("users").child(userId).setValue(user);
+        mDatabase.child("users").child(userId).child("Token").setValue(StartActivity.Token);
+
+        Log.d("signCycle","SignActivity Uid:" +userId);
+        StartActivity.startButton.setEnabled(true);
+        Toast.makeText(SignInActivity.this, "Sign in Success!", Toast.LENGTH_SHORT).show();
     }
     // [END basic_write]
 

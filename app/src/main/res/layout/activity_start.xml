@@ -18,40 +18,33 @@
             android:layout_height="0dp"
             android:src="@drawable/cod"
             android:layout_gravity="top"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:id="@+id/imageView" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <Button
+            android:id="@+id/sign_in_button"
             android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/sign_in_button"
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal|center"
-                android:text="Sign In"
-                android:background="@color/accent_material_dark"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:text="Sign In"
+            android:background="@color/accent_material_dark"
+            android:textSize="20sp"
+            android:textStyle="normal|bold" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="GET TOKEN"
+            android:text="start"
             android:layout_gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:clickable="true"
-            android:onClick="onClick_getToken"
-            android:id="@+id/getTokenButton"
+            android:id="@+id/startButton"
             android:gravity="center_vertical|center_horizontal|center"
-            android:background="@color/abc_search_url_text_normal" />
+            android:background="@color/abc_search_url_text_normal"
+            android:enabled="false" />
     </LinearLayout>
 
 </RelativeLayout>
