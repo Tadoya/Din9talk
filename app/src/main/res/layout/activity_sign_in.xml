@@ -71,5 +71,18 @@
 
     </LinearLayout>
 
+    <CheckBox
+        android:text="Stay signed in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sign_in_checkBox"
+        android:layout_below="@+id/layout_buttons"
+        android:layout_alignLeft="@+id/layout_buttons"
+        android:layout_alignStart="@+id/layout_buttons"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        tools:ignore="HardcodedText"
+        android:checked="true" />
+
 
 </RelativeLayout>

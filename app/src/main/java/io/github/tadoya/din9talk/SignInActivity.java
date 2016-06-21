@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.quickstart.fcm.MyFirebaseMessagingService;
 
 import io.github.tadoya.din9talk.models.User;
 
@@ -33,6 +35,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private EditText mPasswordField;
     private Button mSignInButton;
     private Button mSignUpButton;
+    private CheckBox mSigninCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Click listeners
         mSignInButton.setOnClickListener(this);
         mSignUpButton.setOnClickListener(this);
+
+        // CheckBox
+        mSigninCheckBox = (CheckBox)findViewById(R.id.sign_in_checkBox);
     }
 
     @Override
@@ -122,6 +128,16 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         // Write new user
         writeNewUser(user.getUid(), username);
+
+        // Stay signed in
+        Log.d("stay","SigninActivity checkBox:" + mSigninCheckBox.isChecked());
+        Log.d("stay","Sign_currentuser:" + mAuth.getCurrentUser().getEmail());
+        if(mSigninCheckBox.isChecked()){
+            StartActivity.isStaySignIn = true;
+        }
+        else{
+            StartActivity.isStaySignIn = false;
+        }
 
         // Go to MainActivity
         StartActivity.signInButton.setText("Sign Out");

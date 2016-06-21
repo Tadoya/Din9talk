@@ -39,16 +39,17 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
+
+    // Facebook Android SDK (only required for Facebook Login)
+    // This is only compiled into the 'facebook' variant of this app. You can build
+    // a 'nofacebook' variant to test on devices with SDK < 15.
     compile 'com.google.firebase:firebase-messaging:9.0.2'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.google.firebase:firebase-auth:9.0.2'
     compile 'com.google.firebase:firebase-database:9.0.2'
     compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.google.android.gms:play-services-auth:9.0.2'
-
-    // Facebook Android SDK (only required for Facebook Login)
-    // This is only compiled into the 'facebook' variant of this app. You can build
-    // a 'nofacebook' variant to test on devices with SDK < 15.
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
+    testCompile 'junit:junit:4.12'
     facebookCompile 'com.facebook.android:facebook-android-sdk:4.9.0'
 }

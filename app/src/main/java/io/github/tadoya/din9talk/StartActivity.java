@@ -18,12 +18,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 
-
 public class StartActivity extends AppCompatActivity {
 
     private static final String TAG = "StartActivity";
+    private FirebaseAuth mAuth;
+
     static String Token="";
     static boolean isToken=false;
+    static boolean isStaySignIn;
     static Button getTokenButton;
     static Button signInButton;
 
@@ -38,10 +40,17 @@ public class StartActivity extends AppCompatActivity {
         getTokenButton = (Button) findViewById(R.id.getTokenButton);
         signInButton = (Button) findViewById(R.id.sign_in_button);
 
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.getCurrentUser();
+        Log.d("stay","Start_currentuser:" + mAuth.getCurrentUser().getEmail());
+
+        if (mAuth.getCurrentUser() != null) {
+            signInButton.setText("Sign Out");
+        }
+
         if(signInButton.getText().equals("Sign Out")){
             getTokenatStart();
         }
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +98,10 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(!isStaySignIn){
+            Log.d("stay","destroy:"+isStaySignIn);
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 
     public static void getTokenatStart(){
