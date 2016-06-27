@@ -125,9 +125,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private void onAuthSuccess(FirebaseUser user) {
         String username = usernameFromEmail(user.getEmail());
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("signCycle","SignAcitvity token:" + token);
 
         // Write new user & getToken
-        writeNewUser(user.getUid(), username);
+        writeNewUser(user.getUid(), username, token);
 
         // Stay signed in
         Log.d("signCycle","SigninActivity checkBox:" + mSignInCheckBox.isChecked());
@@ -140,12 +142,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
 
         // Go to MainActivity
-        StartActivity.signInButton.setText("Sign Out");
-        StartActivity.signInButton.setBackgroundColor(Color.parseColor("#009688"));
+        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
         finish();
     }
 
-    private String usernameFromEmail(String email) {
+    public static String usernameFromEmail(String email) {
         if (email.contains("@")) {
             return email.split("@")[0];
         } else {
@@ -173,13 +177,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     // [START basic_write]
-    private void writeNewUser(String userId, String name) {
-        User user = new User(name);
+    private void writeNewUser(String userId, String name, String token) {
+        User user = new User(name, token);
 
-        StartActivity.Token = FirebaseInstanceId.getInstance().getToken();
-
-        mDatabase.child("users").child(userId).setValue(user);
-        mDatabase.child("users").child(userId).child("Token").setValue(StartActivity.Token);
+        mDatabase.child("users").child(userId).setValue(new User(name, token));
+        //mDatabase.child("users").child(userId).child("Token").setValue(StartActivity.Token);
 
         Log.d("signCycle","SignActivity Uid:" +userId);
         StartActivity.startButton.setEnabled(true);

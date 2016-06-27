@@ -2,7 +2,6 @@ package io.github.tadoya.din9talk;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,22 +14,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
-
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
 
     private static final String TAG = "StartActivity";
     private FirebaseAuth mAuth;
 
-    static String Token="";
     String userUid;
     static boolean isStaySignIn=true;
     static Button startButton;
     static Button signInButton;
 
-    static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    static DatabaseReference myRef = database.getReference("users");
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("users");
     private String userEmail;
 
     @Override
@@ -42,13 +40,20 @@ public class StartActivity extends AppCompatActivity {
         signInButton = (Button) findViewById(R.id.sign_in_button);
 
         mAuth = FirebaseAuth.getInstance();
-        mAuth.getCurrentUser();
+
+        /*  익명인증테스트
+        mAuth.signInAnonymously();
+        userUid = mAuth.getCurrentUser().getUid();
+        myRef.child(userUid).child("token").setValue(FirebaseInstanceId.getInstance().getToken());
+        */
+
 
         if (mAuth.getCurrentUser() != null) {
             signInButton.setText("Sign Out");
+            signInButton.setBackgroundColor(Color.parseColor("#009688"));
+
             userUid = mAuth.getCurrentUser().getUid();
             userEmail = mAuth.getCurrentUser().getEmail();
-
             Log.d("signCycle","Start_currentuser's email:" + userEmail);
             Log.d("signCycle","Start_currentuser:"+ userUid);
         }
@@ -56,6 +61,7 @@ public class StartActivity extends AppCompatActivity {
         if(signInButton.getText().equals("Sign Out")){
             getTokenatStart(userUid, userEmail);
         }
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,9 +79,10 @@ public class StartActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent chattingIntent = new Intent(getApplicationContext(), ChattingActivity.class);
-                chattingIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(chattingIntent);
+                //Intent chattingIntent = new Intent(getApplicationContext(), ChattingActivity.class);
+                Intent userListIntent = new Intent(getApplicationContext(), UserListActivity.class);
+                //userListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(userListIntent);
                 finish();
             }
         });
@@ -96,14 +103,18 @@ public class StartActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * duplicated user check
+     * @param userUid
+     * @param userEmail
+     */
     public void getTokenatStart(String userUid, final String userEmail){
         // Read a message from the database(Once)
-        myRef.child(userUid).child("Token").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child(userUid).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String DBToken = (String) dataSnapshot.getValue();
-                Log.d("signCycle","get from database token:"+DBToken);
-                if(Token.equals(DBToken)) {
+                if(FirebaseInstanceId.getInstance().getToken().equals(DBToken)) {
                     startButton.setEnabled(true);
                     Toast.makeText(StartActivity.this, "Hello!"+'\n'+userEmail, Toast.LENGTH_SHORT).show();
                 }
