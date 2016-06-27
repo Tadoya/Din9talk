@@ -10,19 +10,37 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.quickstart.fcm.MyFirebaseMessagingService;
 
-public class ChattingActivity extends AppCompatActivity {
+public class ChattingActivity extends BaseActivity {
 
     private static final String TAG = "ChattingActivity";
+
+    public static final String TO_TOKEN = "token";
+    public static final String MY_NAME = "myName";
+
     private Button sendButton;
     private EditText editText;
     private TextView chatView;
+    private String toToken;
+    private String myToken;
+    private String myName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
+
+        myToken = FirebaseInstanceId.getInstance().getToken();
+        toToken = getIntent().getStringExtra(TO_TOKEN);
+
+        if (toToken == null) {
+            throw new IllegalArgumentException("Must pass EXTRA_TOKEN");
+        }
+
+        myName = SignInActivity.usernameFromEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         chatView = (TextView)findViewById(R.id.textView);
         editText = (EditText)findViewById(R.id.editText);
@@ -35,7 +53,7 @@ public class ChattingActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GCMSender sender = new GCMSender(editText.getText().toString());
+                GCMSender sender = new GCMSender(editText.getText().toString(), toToken, myName, myToken);
                 MyFirebaseMessagingService.chat += "보낸메시지" +" : " +editText.getText().toString()+'\n';
                 chatView.setText(MyFirebaseMessagingService.chat);
                 editText.setText("");
@@ -75,5 +93,12 @@ public class ChattingActivity extends AppCompatActivity {
         MyFirebaseMessagingService.isOnChattingActivity = false;
         Log.d(TAG,"activityNameSet : "+MyFirebaseMessagingService.isOnChattingActivity);
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        MyFirebaseMessagingService.chat ="";
+        Log.d(TAG,"activityNameSet(stop) : "+MyFirebaseMessagingService.isOnChattingActivity);
+        super.onStop();
     }
 }
