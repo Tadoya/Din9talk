@@ -64,12 +64,6 @@
     <string name="label_chatting">chatting</string>
     <string name="Chooser">Chooser</string>
     <string name="sign_up">Sign Up</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_user_list">UserListActivity</string>
-    <string name="friend_list">Friend List</string>
-    <string name="created_by">created_by</string>
-    <string name="menu_logout">Log out</string>
 
 
 </resources>

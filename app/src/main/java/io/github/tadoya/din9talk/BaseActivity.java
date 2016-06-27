@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -31,5 +29,6 @@ public class BaseActivity extends AppCompatActivity {
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
 
 }

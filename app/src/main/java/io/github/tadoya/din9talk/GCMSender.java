@@ -17,20 +17,14 @@ import java.io.IOException;
 public class GCMSender {
 
     String downstream_api_key = "AIzaSyBnW1s3KB5fW1xQpsiOMmaO0wDVVJgeziw";
-    String downstream_token;
+    String downstream_token = StartActivity.Token;
     String downstream_collapse_key = "";
     String downstream_restricted_package_name = "io.github.tadoya.din9talk";
     String downstream_ttl = "";
     String downstream_data;
     String key = "message";
-    String title = "title";
-    String myName = "myName";
-    String myToken;
-    public GCMSender(String msg, String toToken, String myName, String myToken){
+    public GCMSender(String msg){
         this.downstream_data = msg;
-        this.downstream_token = toToken;
-        this.myName = myName;
-        this.myToken = myToken;
         doGcmSend();
     }
     protected void doGcmSend() {
@@ -58,9 +52,8 @@ public class GCMSender {
         messageBuilder.dryRun(false);
                 //((CheckBox) activity.findViewById(R.id.downstream_dry_run)).isChecked());
 
-        messageBuilder.addData(title, myName);
+        messageBuilder.addData("title", "tadoya");
         messageBuilder.addData(key, downstream_data);
-        messageBuilder.addData("fromToken", myToken);
 
 
         final boolean json = true;//((RadioButton) activity.findViewById(R.id.downstream_radio_json)).isChecked();

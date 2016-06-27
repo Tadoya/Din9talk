@@ -38,7 +38,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     public static boolean isOnChattingActivity = false;
     public static String chat="";
-    private String fromToken;
 
     /**
      * Called when message is received.
@@ -56,11 +55,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
         Map<String, String> msgMap = remoteMessage.getData();
         chat +=msgMap.get("title") +" : " + msgMap.get("message") +'\n';
-        fromToken = msgMap.get("fromToken");
         if(isOnChattingActivity){
             Intent intent = new Intent(this, ChattingActivity.class);
             intent.putExtra("chat", chat);
-            intent.putExtra(ChattingActivity.TO_TOKEN, fromToken);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
@@ -76,7 +73,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void sendNotification(Map<String, String> msgMap) {
         Intent intent = new Intent(this, ChattingActivity.class);
-        intent.putExtra(ChattingActivity.TO_TOKEN, fromToken);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
