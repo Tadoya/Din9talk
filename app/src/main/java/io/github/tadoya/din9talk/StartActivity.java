@@ -80,7 +80,7 @@ public class StartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //Intent chattingIntent = new Intent(getApplicationContext(), ChattingActivity.class);
-                Intent userListIntent = new Intent(getApplicationContext(), UserListActivity.class);
+                Intent userListIntent = new Intent(getApplicationContext(), MainActivity.class);
                 //userListIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(userListIntent);
                 finish();

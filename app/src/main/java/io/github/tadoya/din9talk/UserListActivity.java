@@ -17,6 +17,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 
+import io.github.tadoya.din9talk.BaseActivity;
+import io.github.tadoya.din9talk.ChattingActivity;
+import io.github.tadoya.din9talk.R;
+import io.github.tadoya.din9talk.StartActivity;
 import io.github.tadoya.din9talk.firebaseui.FirebaseListAdapter;
 import io.github.tadoya.din9talk.models.User;
 
@@ -58,9 +62,7 @@ public class UserListActivity extends BaseActivity {
         mUserListAdapter = new FirebaseListAdapter<User>(this, User.class, R.layout.single_active_list, userQuery) {
             @Override
             protected void populateView(View v, final User model, final int position) {
-                final DatabaseReference postRef = getRef(position);
 
-                // Set click listener for the whole post view
                 final String toToken = model.getToken();
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
