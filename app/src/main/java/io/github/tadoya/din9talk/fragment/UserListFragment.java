@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import io.github.tadoya.din9talk.ChattingActivity;
-import io.github.tadoya.din9talk.MainActivity;
+import io.github.tadoya.din9talk.ChattingList;
 import io.github.tadoya.din9talk.R;
 import io.github.tadoya.din9talk.models.User;
 import io.github.tadoya.din9talk.viewholder.MyViewHolder;
@@ -67,8 +67,8 @@ public class UserListFragment extends ListFragment {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
-                        Intent intent = new Intent(getActivity(), ChattingActivity.class);
-                        intent.putExtra(ChattingActivity.TO_TOKEN, toToken);
+                        Intent intent = new Intent(getActivity(), ChattingList.class);
+                        intent.putExtra(ChattingList.TO_TOKEN, toToken);
                         startActivity(intent);
                     }
                 });

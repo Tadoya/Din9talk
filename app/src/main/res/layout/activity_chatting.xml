@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="io.github.tadoya.din9talk.ChattingActivity">
 
     <LinearLayout
@@ -16,37 +12,47 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        tools:ignore="UselessParent"
+        android:background="@android:color/holo_green_light">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:id="@+id/textView"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            android:gravity="bottom" />
+            android:gravity="bottom"
+            android:padding="5dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:background="@android:color/holo_orange_dark">
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:id="@+id/editText"
                 android:layout_weight="1"
-                android:background="@android:drawable/edit_text" />
+                android:inputType=""
+                android:background="@android:drawable/editbox_background" />
 
-            <Button
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/sendButton"
-                android:layout_weight="3"
-                android:layout_gravity="bottom"
-                android:background="@android:drawable/ic_menu_send"
-                android:clickable="true" />
+                android:background="@android:color/holo_orange_dark">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sendButton"
+                    android:layout_gravity="bottom"
+                    android:background="@android:drawable/ic_menu_send"
+                    android:clickable="true" />
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

@@ -10,7 +10,7 @@ import io.github.tadoya.din9talk.models.User;
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView item_title;
+    private TextView item_title;
 
 
     public MyViewHolder(View itemView) {

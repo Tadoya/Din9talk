@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/cod"
+            android:src="@drawable/main2_din9talk"
             android:layout_gravity="top"
             android:layout_weight="4"
             android:id="@+id/imageView" />

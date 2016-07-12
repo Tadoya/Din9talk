@@ -15,36 +15,45 @@
         app:layout_constraintLeft_toLeftOf="@+id/activity_chatting_list"
         tools:ignore="MissingConstraints">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chatbox_recycler_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/chattingListView"
             android:layout_weight="1"
-            android:gravity="bottom" />
+            android:scrollbars="vertical"
+            android:background="@android:color/holo_green_light"
+            tools:listitem="@layout/chatbox_recyclerview"
+            android:padding="5dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false">
+            tools:ignore="UselessParent"
+            android:background="@android:color/holo_orange_light">
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:layout_weight="3"
-                android:background="@android:drawable/edit_text"
+                android:layout_height="match_parent"
+                android:id="@+id/chatbox_Text"
+                android:layout_weight="1"
+                android:background="@android:drawable/editbox_background"
                 android:inputType="" />
 
-            <Button
-                android:layout_width="0dp"
+            <FrameLayout
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/sendButton"
-                android:layout_weight="1"
-                android:layout_gravity="bottom"
-                android:background="@android:drawable/ic_menu_send"
-                android:clickable="true" />
-        </LinearLayout>
+                android:background="@android:color/holo_orange_light">
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/chatbox_sendButton"
+                    android:layout_gravity="bottom"
+                    android:background="@android:drawable/ic_menu_send"
+                    android:clickable="true" />
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

@@ -31,6 +31,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 
 import io.github.tadoya.din9talk.ChattingActivity;
+import io.github.tadoya.din9talk.ChattingList;
 import io.github.tadoya.din9talk.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -55,11 +56,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         //Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
         Map<String, String> msgMap = remoteMessage.getData();
-        chat +=msgMap.get("title") +" : " + msgMap.get("message") +'\n';
+        //chat = msgMap.get("title") +" : " + msgMap.get("message") +'\n';
         fromToken = msgMap.get("fromToken");
         if(isOnChattingActivity){
-            Intent intent = new Intent(this, ChattingActivity.class);
-            intent.putExtra("chat", chat);
+            Intent intent = new Intent(this, ChattingList.class);
+            intent.putExtra("chat", msgMap.get("message"));
+            intent.putExtra("title", msgMap.get("title"));
             intent.putExtra(ChattingActivity.TO_TOKEN, fromToken);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
@@ -75,8 +77,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param msgMap FCM message Data received.
      */
     private void sendNotification(Map<String, String> msgMap) {
-        Intent intent = new Intent(this, ChattingActivity.class);
-        intent.putExtra(ChattingActivity.TO_TOKEN, fromToken);
+        Intent intent = new Intent(this, ChattingList.class);
+        intent.putExtra(ChattingList.TO_TOKEN, fromToken);
+        intent.putExtra("title", msgMap.get("title"));
+        intent.putExtra("message", msgMap.get("message"));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
