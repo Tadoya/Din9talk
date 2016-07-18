@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import io.github.tadoya.din9talk.fragment.ChattingListFragment;
 import io.github.tadoya.din9talk.fragment.UserListFragment;
+import io.github.tadoya.din9talk.models.User;
 
 public class MainActivity extends BaseActivity {
 
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity {
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private FloatingActionButton fab;
+    public static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

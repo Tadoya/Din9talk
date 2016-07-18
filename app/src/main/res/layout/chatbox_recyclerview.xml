@@ -28,12 +28,8 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="msg"
-            android:background="@drawable/draw_chatbox_r"
-            android:longClickable="true"
-            android:textIsSelectable="true"
-            android:selectAllOnFocus="true"
-            android:linksClickable="true"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginStart="10dp" />
 
         <TextView
             android:id="@+id/chatbox_time"

@@ -12,8 +12,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import io.github.tadoya.din9talk.ChattingActivity;
 import io.github.tadoya.din9talk.ChattingList;
+import io.github.tadoya.din9talk.MainActivity;
 import io.github.tadoya.din9talk.R;
 import io.github.tadoya.din9talk.models.User;
 import io.github.tadoya.din9talk.viewholder.MyViewHolder;
@@ -55,20 +55,26 @@ public class UserListFragment extends ListFragment {
 
             @Override
             protected void populateViewHolder(final MyViewHolder viewHolder, final User model, final int position) {
-                final DatabaseReference postRef = getRef(position);
+                final DatabaseReference uidRef = getRef(position);
 
-                // Set click listener for the whole post view
-                final String postKey = postRef.getKey();
-                Log.d(TAG, ""+postKey);
+                // Set click listener for the whole view
+                final String uidKey = uidRef.getKey();
+                Log.d(TAG, "all uIDs : "+ uidKey);
 
                 final String toToken = model.getToken();
+                Log.d(TAG, "all tokens: " + toToken);
+                final String userName = model.getUserName();
 
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Launch PostDetailActivity
+                        // Launch ChattingListActivity
+                        //임시
+                        MainActivity.user = model;
+                        Log.d(TAG, "selected uID: "+uidKey);
                         Intent intent = new Intent(getActivity(), ChattingList.class);
                         intent.putExtra(ChattingList.TO_TOKEN, toToken);
+                        intent.putExtra(ChattingList.ROOM_NAME, userName);  //임시 추후 UID로
                         startActivity(intent);
                     }
                 });
@@ -91,8 +97,8 @@ public class UserListFragment extends ListFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         if (mAdapter != null) {
             mAdapter.cleanup();
         }

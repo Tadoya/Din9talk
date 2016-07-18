@@ -30,7 +30,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
-import io.github.tadoya.din9talk.ChattingActivity;
 import io.github.tadoya.din9talk.ChattingList;
 import io.github.tadoya.din9talk.R;
 
@@ -38,6 +37,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     public static boolean isOnChattingActivity = false;
+    public static String chattingAcitivityName="";
     public static String chat="";
     private String fromToken;
 
@@ -62,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent intent = new Intent(this, ChattingList.class);
             intent.putExtra("chat", msgMap.get("message"));
             intent.putExtra("title", msgMap.get("title"));
-            intent.putExtra(ChattingActivity.TO_TOKEN, fromToken);
+            intent.putExtra(ChattingList.TO_TOKEN, fromToken);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
