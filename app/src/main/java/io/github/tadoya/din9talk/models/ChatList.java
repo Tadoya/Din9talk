@@ -13,7 +13,6 @@ public class ChatList extends RealmObject {
     //private String userName;
     private String message;
     private String chatTime;
-    //private RealmList<Chat> chats;
 
     public ChatList(){
 
@@ -29,12 +28,10 @@ public class ChatList extends RealmObject {
     //public void setUserName(String userName) { this.userName = userName; }
     public void setMessage(String message)  {this.message = message; }
     public void setChatTime(String chatTime)    {this.chatTime = chatTime; }
-    //public void setChats(RealmList<Chat> chats)   {this.chats = chats; }
 
     public String getRoomID()   { return roomID; }
     //public String getUserName() { return userName; }
     public String getMessage() { return  message; }
     public String getChatTimeT() { return chatTime; }
-    //public RealmList<Chat> getChats() { return chats; }
 
 }

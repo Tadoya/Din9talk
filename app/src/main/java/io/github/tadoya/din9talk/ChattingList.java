@@ -216,7 +216,6 @@ public class ChattingList extends BaseActivity {
                 }
             });
         }
-
         super.onStop();
     }
 
